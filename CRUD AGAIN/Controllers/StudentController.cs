@@ -1,5 +1,6 @@
 ﻿using CRUD_AGAIN.Data;
 using CRUD_AGAIN.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace CRUD_AGAIN.Controllers
 {
+    [Authorize]
     public class StudentController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -16,13 +18,14 @@ namespace CRUD_AGAIN.Controllers
         {
             _db = db;
         }
-
+        [AllowAnonymous]
         public IActionResult Index()
         {
             IEnumerable<Student> objlist = _db.Student;
             return View(objlist);
         }
         //get - create
+        
         public IActionResult CreateStudent()
         {
             
@@ -42,6 +45,7 @@ namespace CRUD_AGAIN.Controllers
            
         }
         //Gt - edit
+        
         public IActionResult Edit(int? id)
         {
             if(id==null || id == 0)
@@ -70,6 +74,7 @@ namespace CRUD_AGAIN.Controllers
 
         }
         //Gt - Delete
+        
         public IActionResult Delete(int? id)
         {
             if (id == null || id == 0)
@@ -85,6 +90,7 @@ namespace CRUD_AGAIN.Controllers
         }
         //post- Delete
         [HttpPost]
+        
         [ValidateAntiForgeryToken]
         public IActionResult DeletePost(int? id)
         {
